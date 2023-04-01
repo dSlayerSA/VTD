@@ -1,0 +1,45 @@
+﻿@page "/fetchdata"
+
+@using System.Net.Http.Json
+@using System.Threading.Tasks
+
+<h1>Empresas</h1>
+
+@if (empresas == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Site</th>
+                <th>Segmento</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var empresa in empresas)
+            {
+                <tr>
+                    <td>@empresa.Nome</td>
+                    <td>@empresa.Site</td>
+                    <td>@empresa.Segmento</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Empresa> empresas;
+
+    [Inject]
+    private EmpresaService EmpresaService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        empresas = await EmpresaService.GetEmpresas();
+    }
+}
