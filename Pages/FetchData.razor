@@ -1,4 +1,5 @@
 ﻿@page "/fetchdata"
+@inject EmpresaService empresaService
 
 @using System.Net.Http.Json
 @using System.Threading.Tasks
@@ -17,6 +18,7 @@ else
                 <th>Nome</th>
                 <th>Site</th>
                 <th>Segmento</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +28,9 @@ else
                     <td>@empresa.Nome</td>
                     <td>@empresa.Site</td>
                     <td>@empresa.Segmento</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="() => EditarEmpresa(empresa)">Editar</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -35,11 +40,13 @@ else
 @code {
     private List<Empresa> empresas;
 
-    [Inject]
-    private EmpresaService EmpresaService { get; set; }
+    private void EditarEmpresa(Empresa empresa)
+    {
+        // Abrir formulário de edição para a empresa selecionada
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        empresas = await EmpresaService.GetEmpresas();
+        empresas = await empresaService.GetEmpresas();
     }
 }
